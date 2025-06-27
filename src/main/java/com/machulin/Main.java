@@ -19,8 +19,8 @@ public class Main {
         cr.updateCustomer(updateCr);
 
 
-        customer.setId(1L);
+        customer.setId(2L);
         cr.updateCustomer(customer);
-        cr.printAllCustomers();
+
     }
 }

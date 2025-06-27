@@ -26,19 +26,19 @@ public class CustomerRepository {
         }
     }
 
-    public void printAllCustomers() throws SQLException {
+    public List<Customer> getAllCustomers() throws SQLException {
+        List<Customer> customers = new ArrayList<>();
         try (Connection connection = db.getConnection();
              PreparedStatement ps = connection.prepareStatement(GET_ALL_CUSTOMERS);
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
-                System.out.println(
-                                rs.getInt("id") + " " +
-                                rs.getString("first_name") + " " +
-                                rs.getString("last_name") + " " +
-                                rs.getString("date_of_birth")
-                );
+                customers.add(new Customer(rs.getString("first_name"),
+                        rs.getString("last_name"),
+                        rs.getDate("date_of_birth").toLocalDate()
+                ));
             }
         }
+        return customers;
     }
 
     public void updateCustomer(Customer customer) throws SQLException {
