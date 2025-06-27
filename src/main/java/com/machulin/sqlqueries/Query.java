@@ -20,4 +20,9 @@ public interface Query {
     String UPDATE_CUSTOMER = """
             UPDATE customers SET first_name = ?, last_name = ?, date_of_birth = ? WHERE id = ?
             """;
+
+    String GET_CUSTOMER_BY_ID = """
+            SELECT * FROM customers
+            WHERE id = ?
+            """;
 }

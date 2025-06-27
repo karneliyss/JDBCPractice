@@ -6,6 +6,7 @@ import com.machulin.model.Customer;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.machulin.sqlqueries.Query.*;
 
@@ -53,5 +54,19 @@ public class CustomerRepository {
         }
     }
 
-
+    public Optional<Customer> getCustomerById(Long id) throws SQLException {
+        try (Connection connection = db.getConnection();
+            PreparedStatement ps = connection.prepareStatement(GET_CUSTOMER_BY_ID)) {
+            ps.setLong(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Customer customer = new Customer(rs.getString("first_name"),
+                            rs.getString("last_name"),
+                            rs.getDate("date_of_birth").toLocalDate());
+                    return Optional.of(customer);
+                }
+                return Optional.empty();
+            }
+        }
+    }
 }
